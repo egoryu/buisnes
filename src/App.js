@@ -1,10 +1,12 @@
-import logo from './logo.svg';
 import './App.css';
+import {Footer} from "./components/Footer";
+import {Header} from "./components/Header";
 
 function App() {
   return (
-    <div>
-      Hello Egor
+    <div className='wrapper'>
+        <Header />
+        <Footer />
     </div>
   );
 }
