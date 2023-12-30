@@ -53,10 +53,72 @@ header .name {
   font-weight: 600;
 }
 
-
 footer {
   text-align: center;
   margin-top: 10px;
   border-top: 1px solid black;
+  padding-top: 5px;
 }
 
+.menu {
+  min-width: 150px;
+  margin-top: 10px;
+  border-right: 1px solid black;
+  padding: 10px;
+}
+
+.menu h1 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.menu ul {
+  list-style-type: none;
+  padding-left: 10px;
+  margin: 0;
+}
+
+.menu li {
+  margin-bottom: 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.menu li:hover {
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.menuContent {
+  display: flex;
+}
+
+.selected {
+  border: 1px solid black;
+  border-radius: 10px;
+  background-color: #FAA519;
+}
+
+.button {
+  background-color: #FAA519;
+  text-align: center;
+  cursor: pointer;
+  color: black;
+  padding: 6px 16px;
+  border-radius: 4px;
+  border: none;
+  text-decoration: none;
+  white-space: nowrap;
+  font-weight: 100;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.button:hover {
+  background-color: #e39515;
+}
+
+.menuText {
+  text-decoration: none;
+  color: inherit;
+}

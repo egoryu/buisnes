@@ -1,3 +1,5 @@
+import {ProfileImage} from "./ProfileImage";
+
 export function Header() {
     return (
         <header>
@@ -15,7 +17,8 @@ export function Header() {
                 <input placeholder={"Поиск TradePulse"}/>
             </div>
             <div className='profile'>
-                <img src='/img/Group.png' alt='profile'/>
+                {/*<img src='/img/Group.png' alt='profile'/>*/}
+                <ProfileImage></ProfileImage>
             </div>
         </header>
     )
