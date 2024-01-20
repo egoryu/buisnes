@@ -14,7 +14,7 @@ export function ProfileImage() {
 
     return (
         <div className="App">
-            <button className="button" type="button" onClick={handleModalOpen}>
+            <button className="button" onClick={handleModalOpen}>
                 Log in
             </button>
             <div>
