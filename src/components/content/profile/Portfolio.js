@@ -1,9 +1,10 @@
 import {Category} from "../trading/Category";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {StockList} from "./StockList";
+import ProfileService from "../../../api/api.profile";
 
 export function Portfolio() {
-    let items=[
+    const [items, setItems] = useState([
         {
             id: 1,
             name: 'Ozon',
@@ -60,10 +61,21 @@ export function Portfolio() {
             value: 23.3,
             amount: 10,
         },
-
-    ]
+    ]);
 
     let [curItems, setCurItems] = useState(items);
+
+    useEffect(() => {
+        fetchData();
+    });
+    const fetchData = async () => {
+        try {
+            const response = await ProfileService.getPortfolioData();
+            setItems(response.data);
+        } catch (error) {
+            console.error('Error fetching portfolio data:', error);
+        }
+    };
     function chooseCategory(category) {
         if (category === 'all') {
             setCurItems(items);

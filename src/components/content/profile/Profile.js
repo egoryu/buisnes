@@ -1,30 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import "../../../style/profile.css"
+import ProfileService from "../../../api/api.profile";
 
 export function Profile({ userId }) {
-    const [userData, setUserData] = useState(null);
+    const [userData, setUserData] = useState({
+        name: 'John',
+        surname: 'Doe',
+        email: 'johndoe@example.com',
+        age: 30,
+        location: 'New York',
+        telephone: '+7(921)888 88 88'
+    });
     const [isEditing, setIsEditing] = useState(false);
     const [editedData, setEditedData] = useState(null);
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                //const response = await axios.get(`/api/users/${userId}`);
-                //setUserData(response.data);
-                setUserData({
-                    name: 'John',
-                    surname: 'Doe',
-                    email: 'johndoe@example.com',
-                    age: 30,
-                    location: 'New York',
-                    telephone: '+7(921)888 88 88'
-                });
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
         fetchData();
-    }, [userId]);
+    });
+    const fetchData = async () => {
+        try {
+            const response = await ProfileService.getProfileData();
+            setUserData(response.data);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
 
     const handleEdit = () => {
         setIsEditing(true);
@@ -38,10 +38,15 @@ export function Profile({ userId }) {
         });
     };
 
-    const handleSave = () => {
-        // Save edited data
+    const handleSave = async () => {
         setUserData(editedData);
         setIsEditing(false);
+        try {
+            const response = await ProfileService.putProfileData(editedData);
+            alert(response.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     return (

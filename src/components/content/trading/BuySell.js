@@ -28,16 +28,6 @@ export function BuySell(props) {
         setSellSumPrice(sellQuantity * e.target.value);
     };
 
-    const handleBuy = () => {
-        // Обработка логики покупки
-        console.log(`Покупка: Количество - ${buyQuantity}, Сумма - ${buySumPrice}`);
-    };
-
-    const handleSell = () => {
-        // Обработка логики продажи
-        console.log(`Продажа: Количество - ${sellQuantity}, Сумма - ${sellSumPrice}`);
-    };
-
     return (
         <div>
             <h2>Торговля</h2>
@@ -62,7 +52,7 @@ export function BuySell(props) {
                     <label>Сумма покупки:</label>
                     <input type="text" value={buySumPrice} disabled />
                 </div>
-                <button onClick={handleBuy}>Купить</button>
+                <button onClick={() => props.handleBuy(buyQuantity)}>Купить</button>
             </div>
             <div className={'trade'}>
                 <div>
@@ -85,8 +75,8 @@ export function BuySell(props) {
                     <label>Сумма продажи:</label>
                     <input type="text" value={sellSumPrice} disabled />
                 </div>
-                <button onClick={handleSell}>Продать</button>
+                <button onClick={() => props.handleSell(sellQuantity)}>Продать</button>
             </div>
         </div>
     );
-};
+}

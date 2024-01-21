@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ProfileService from "../../../api/api.profile";
 
 export function MainPage() {
     const [title, setTitle] = useState('');
@@ -12,12 +13,16 @@ export function MainPage() {
         setReview(event.target.value);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Ваша логика для отправки отзыва
+        try {
+            await ProfileService.sendMessage(title, review);
+        } catch (error) {
+            console.log(error);
+        }
         console.log('Title:', title);
         console.log('Review:', review);
-        // Сброс формы после отправки
+
         setTitle('');
         setReview('');
     };

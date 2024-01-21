@@ -7,6 +7,7 @@ import {Trade} from "./components/content/trading/Trade";
 import {Route, Routes} from "react-router-dom";
 import {Stock} from "./components/content/trading/Stock";
 import {RootProfile} from "./components/content/profile/RootProfile";
+import PrivateRouteProfile from "./components/content/profile/privateRouteProfile";
 
 function App() {
   return (
@@ -18,7 +19,9 @@ function App() {
             <Routes>
                 <Route path="/" element={<MainPage/> } />
                 <Route path="trading" element={<Trade />} />
-                <Route path="profile" element={<RootProfile />} />
+                <Route path="profile" element={<PrivateRouteProfile />}>
+                    <Route path="" element={<RootProfile />} />
+                </Route>
                 <Route path="trading/stock/:id" element={<Stock />}/>
             </Routes>
         </div>
