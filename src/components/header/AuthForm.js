@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import validator from 'validator';
 import "../../style/auth.css"
+import authStore from "../../store/store";
+import {Navigate} from "react-router-dom";
 const LoginForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [redirectToProfile, setRedirectToProfile] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -16,8 +18,12 @@ const LoginForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Ваша логика для обработки входа
+        authStore.login(email, password).then(r => setRedirectToProfile(true));
     };
+
+    if (redirectToProfile) {
+        return <Navigate to="/profile" />;
+    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -39,6 +45,7 @@ const RegistrationForm = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [redirectToProfile, setRedirectToProfile] = useState(false);
 
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -60,20 +67,16 @@ const RegistrationForm = () => {
         // } else if(!validator.isStrongPassword(password, {minSymbols: 8})) {
         //     alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
         } else {
-            axios.post("/auth/registration/", {
-                email: email,
-                password: password,
-            }).then(res => {
-                if (res.data === true) {
-                    window.location.href = "/"
-                } else {
-                    alert("There is already a user with this email")
-                }
-            }).catch(() => {
+            authStore.register(email, password).then(r => setRedirectToProfile(true))
+            .catch(() => {
                 alert("An error occurred on the server")
             })
         }
     };
+
+    if (redirectToProfile) {
+        return <Navigate to="/" />;
+    }
 
     return (
         <form onSubmit={handleSubmit}>

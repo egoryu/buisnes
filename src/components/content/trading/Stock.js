@@ -1,40 +1,50 @@
 import React, {useEffect, useState} from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
 import "../../../style/trade.css"
 import {useParams} from "react-router-dom";
-import async from "async";
 import {BuySell} from "./BuySell";
+import TradeService from "../../../api/api.trade";
 
-const data = [];
+/*const data = [];
 
 for (let i = 0; i < 100; i++) {
     const date = new Date(Math.random() * 26 + 2000, Math.random() * 12, Math.random() * 29, Math.random() * 24);
     const price = Math.floor(Math.random() * 1000) + 1;
     data.push({ time: date, price: price });
-}
-const sortedData = data.sort((a, b) => a.time - b.time);
+}*/
 
 export function Stock() {
+    let sortedData = [{ time:  new Date(Math.random() * 26 + 2000, Math.random() * 12, Math.random() * 29, Math.random() * 24), price: 2 }];
     const [chartData, setChartData] = useState(sortedData);
     const {id} = useParams()
+
+    useEffect( () => {
+        fetchData();
+    },);
+
+    const fetchData = async () => {
+        try {
+            const response = await TradeService.getStockData(id);
+            const data = response.data;
+            sortedData = data.sort((a, b) => a.time - b.time);
+            setChartData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const handleChangeInterval = (newTime) => {
         setChartData(sortedData.filter(el => el.time > newTime));
     };
 
-    const [buyQuantity, setBuyQuantity] = useState('');
-    const [buyAmount, setBuyAmount] = useState('');
-    const [sellQuantity, setSellQuantity] = useState('');
-    const [sellAmount, setSellAmount] = useState('');
-
-    const handleBuy = () => {
-        // Обработка логики покупки
-        console.log(`Покупка: Количество - ${buyQuantity}, Сумма - ${buyAmount}`);
+    const handleBuy = (amount) => {
+        console.log(`Покупка: Количество - ${amount}`);
+        TradeService.stockBuy(id, amount).catch(err => alert(err));
     };
 
-    const handleSell = () => {
-        // Обработка логики продажи
-        console.log(`Продажа: Количество - ${sellQuantity}, Сумма - ${sellAmount}`);
+    const handleSell = (amount) => {
+        console.log(`Продажа: Количество - ${amount}`);
+        TradeService.stockSell(id, amount).catch(err => alert(err));
     };
 
     return (
@@ -56,7 +66,7 @@ export function Stock() {
                 <div onClick={() => handleChangeInterval(new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000)))}>Last month</div>
                 <div onClick={() => handleChangeInterval(new Date(new Date().getTime() - (365 * 24 * 60 * 60 * 1000)))}>Last year</div>
             </div>
-            <BuySell price={sortedData[sortedData.length - 1].price}/>
+            <BuySell price={sortedData[sortedData.length - 1].price} handleBuy={handleBuy} handleSell={handleSell}/>
         </div>
     );
-};
+}

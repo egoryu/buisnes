@@ -1,6 +1,8 @@
 import {useState} from "react";
 import Modal from "./Modal";
 import AuthForm from "./AuthForm";
+import authStore from "../../store/store";
+import {Link} from "react-router-dom";
 
 export function ProfileImage() {
     const [isModalActive, setModalActive] = useState(false);
@@ -12,18 +14,28 @@ export function ProfileImage() {
         setModalActive(false);
     };
 
-    return (
-        <div className="App">
-            <button className="button" onClick={handleModalOpen}>
-                Log in
-            </button>
+    if (authStore.isAuth) {
+        return (
             <div>
-                {isModalActive && (
-                    <Modal title="" onClose={handleModalClose}>
-                        <AuthForm></AuthForm>
-                    </Modal>
-                )}
+                <Link to="/profile">
+                    <img src={"img/Group.png"} alt={"Logo"}/>
+                </Link>
             </div>
-        </div>
-    );
+        );
+    } else {
+        return (
+            <div className="App">
+                <button className="button" onClick={handleModalOpen}>
+                    Log in
+                </button>
+                <div>
+                    {isModalActive && (
+                        <Modal title="" onClose={handleModalClose}>
+                            <AuthForm />
+                        </Modal>
+                    )}
+                </div>
+            </div>
+        );
+    }
 }
