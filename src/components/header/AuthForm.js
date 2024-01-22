@@ -60,6 +60,7 @@ const RegistrationForm = () => {
     };
 
     const handleSubmit = (e) => {
+        e.preventDefault();
         if(!validator.isEmail(email)) {
             alert("You did not enter email")
         } else if(password !== confirmPassword) {
@@ -67,7 +68,7 @@ const RegistrationForm = () => {
         // } else if(!validator.isStrongPassword(password, {minSymbols: 8})) {
         //     alert("Password must consist of one lowercase, uppercase letter and number, at least 8 characters")
         } else {
-            authStore.register(email, password).then(r => setRedirectToProfile(true))
+            authStore.register(email, password).then(r => authStore.login(email, password)).then(r => setRedirectToProfile(true))
             .catch(() => {
                 alert("An error occurred on the server")
             })

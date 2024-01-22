@@ -4,8 +4,8 @@ export function StockItem(props) {
         <tr key={props.item.id}>
             <td>{props.item.name}</td>
             <td>{props.item.amount}</td>
-            <td>{props.item.value}</td>
-            <td>{props.item.value * props.item.amount}</td>
+            <td>{props.item.price}</td>
+            <td>{props.item.price * props.item.amount}</td>
         </tr>
     )
 }

@@ -6,28 +6,27 @@ import {BuySell} from "./BuySell";
 import TradeService from "../../../api/api.trade";
 
 export function Stock() {
-    let sortedData = [{ time:  new Date(Math.random() * 26 + 2000, Math.random() * 12, Math.random() * 29, Math.random() * 24), price: 2 }];
-    const [chartData, setChartData] = useState(sortedData);
-    const [description, setDescription] = useState({
-        "Id": 2,
-        "Name": "Ozon",
-        "Description": "Лучшее предложение!",
-        "Currency": "RUB",
-        "category_id": 2
-    });
+    const [sortedData, setSortedData] = useState([]);
+    const [chartData, setChartData] = useState([]);
+    const [description, setDescription] = useState({});
     const {id} = useParams()
 
     useEffect( () => {
         fetchDataPrice();
         fetchData()
-    },);
+    }, []);
 
     const fetchDataPrice = async () => {
         try {
             const response = await TradeService.getStockPrice(id);
             const data = response.data;
-            sortedData = data.sort((a, b) => a.time - b.time);
-            setChartData(data);
+            const convertedData = data.map(item => ({
+                Date: new Date(item.Date),
+                Price: item.Price
+            }));
+            const sortData = convertedData.sort((a, b) => a.Date - b.Date);
+            setSortedData(sortData);
+            setChartData(sortData);
         } catch (error) {
             console.error(error);
         }
@@ -44,17 +43,17 @@ export function Stock() {
     };
 
     const handleChangeInterval = (newTime) => {
-        setChartData(sortedData.filter(el => el.time > newTime));
+        setChartData(sortedData.filter(el => el.Date > newTime));
     };
 
     const handleBuy = (amount) => {
         console.log(`Покупка: Количество - ${amount}`);
-        TradeService.stockBuy(id, amount).catch(err => alert(err));
+        TradeService.stockBuy(parseInt(id), amount).catch(err => alert(err));
     };
 
     const handleSell = (amount) => {
         console.log(`Продажа: Количество - ${amount}`);
-        TradeService.stockSell(id, amount).catch(err => alert(err));
+        TradeService.stockSell(parseInt(id), amount).catch(err => alert(err));
     };
 
     return (
@@ -66,10 +65,10 @@ export function Stock() {
             <div className={"graph"}>
                 <LineChart width={800} height={400} data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="time" />
+                    <XAxis dataKey="Date" />
                     <YAxis />
                     <Tooltip />
-                    <Line type="monotone" dataKey="price" stroke="#8884d8" />
+                    <Line type="monotone" dataKey="Price" stroke="#8884d8" />
                 </LineChart>
             </div>
             <div className={"buttons"}>
@@ -80,7 +79,7 @@ export function Stock() {
                 <div onClick={() => handleChangeInterval(new Date(new Date().getTime() - (30 * 24 * 60 * 60 * 1000)))}>Last month</div>
                 <div onClick={() => handleChangeInterval(new Date(new Date().getTime() - (365 * 24 * 60 * 60 * 1000)))}>Last year</div>
             </div>
-            <BuySell price={sortedData[sortedData.length - 1].price} handleBuy={handleBuy} handleSell={handleSell}/>
+            <BuySell price={sortedData} handleBuy={handleBuy} handleSell={handleSell}/>
         </div>
     );
 }

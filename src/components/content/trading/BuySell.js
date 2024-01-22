@@ -1,13 +1,19 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 
 export function BuySell(props) {
     const [buyQuantity, setBuyQuantity] = useState(1);
-    const [buyPrice, setBuyPrice] = useState(props.price);
-    const [buySumPrice, setBuySumPrice] = useState(props.price);
+    const [buyPrice, setBuyPrice] = useState(0);
+    const [buySumPrice, setBuySumPrice] = useState(0);
     const [sellQuantity, setSellQuantity] = useState(1);
-    const [sellPrice, setSellPrice] = useState(props.price);
-    const [sellSumPrice, setSellSumPrice] = useState(props.price);
+    const [sellPrice, setSellPrice] = useState(0);
+    const [sellSumPrice, setSellSumPrice] = useState(0);
 
+    useEffect(() => {
+        setBuyPrice(props.price[props.price.length - 1]?.Price);
+        setSellPrice(props.price[props.price.length - 1]?.Price);
+        setBuySumPrice(buyPrice * buyQuantity);
+        setSellSumPrice(sellPrice * sellQuantity);
+    }, [props.price]);
     const handleBuyQuantityChange = (e) => {
         setBuyQuantity(e.target.value);
         setBuySumPrice(e.target.value * buyPrice);
@@ -52,7 +58,7 @@ export function BuySell(props) {
                     <label>Сумма покупки:</label>
                     <input type="text" value={buySumPrice} disabled />
                 </div>
-                <button onClick={() => props.handleBuy(buyQuantity)}>Купить</button>
+                <button onClick={() => props.handleBuy(parseInt(buyQuantity))}>Купить</button>
             </div>
             <div className={'trade'}>
                 <div>
@@ -75,7 +81,7 @@ export function BuySell(props) {
                     <label>Сумма продажи:</label>
                     <input type="text" value={sellSumPrice} disabled />
                 </div>
-                <button onClick={() => props.handleSell(sellQuantity)}>Продать</button>
+                <button onClick={() => props.handleSell(parseInt(sellQuantity))}>Продать</button>
             </div>
         </div>
     );

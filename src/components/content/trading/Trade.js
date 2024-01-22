@@ -5,59 +5,19 @@ import {Category} from "./Category";
 import TradeService from "../../../api/api.trade";
 
 export function Trade() {
-    const [items, setItems] = useState([
-        {
-            Id: 1,
-            Name: 'Ozon',
-            category_id: 2,
-        },
-        {
-            Id: 2,
-            Name: 'Yandex',
-            category_id: 2,
-        },
-        {
-            Id: 3,
-            Name: 'Google',
-            category_id: 2,
-        },
-        {
-            Id: 4,
-            Name: 'Vk',
-            category_id: 2,
-        },
-        {
-            Id: 5,
-            Name: 'Tinkoff',
-            category_id: 2,
-        },
-        {
-            Id: 6,
-            Name: 'Rub',
-            category_id: 3,
-        },
-        {
-            Id: 7,
-            Name: 'Dollar',
-            category_id: 3,
-        },
-        {
-            Id: 8,
-            Name: 'Kek',
-            category_id: 4,
-        },
-    ]);
+    const [items, setItems] = useState([]);
     let [curItems, setCurItems] = useState(items);
 
     useEffect( () => {
         fetchData();
-    },);
+    }, []);
 
     const fetchData = async () => {
         try {
             const response = await TradeService.getAllStock();
-            const data = response.data;
+            const data = response.data.stocks;
             setItems(data);
+            setCurItems(data)
         } catch (error) {
             console.error(error);
         }

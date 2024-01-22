@@ -1,8 +1,8 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    baseURL: "https://8abe-95-161-221-55.ngrok-free.app/",
-
+    baseURL: "https://1783-95-161-221-55.ngrok-free.app/",
+    //withCredentials: true,
 });
 
 instance.interceptors.request.use(
@@ -11,9 +11,10 @@ instance.interceptors.request.use(
             "Access-Control-Allow-Origin": "*",
             "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
             "Access-Control-Allow-Headers": "Content-Type, Authorization",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/x-www-form-urlencoded",
+            Authorization: `${localStorage.getItem("token")}`,
+            "Content-Type": "application/json; charset=utf-8",
             Accept: "application/json",
+            "ngrok-skip-browser-warning": "69420",
         };
         return config;
     }

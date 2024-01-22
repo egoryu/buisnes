@@ -8,11 +8,11 @@ const TradeService = {
     getStockData(id) {
         return instance.get(`/api/stocks/${id}`);
     },
-    stockBuy(id, amount) {
-        return instance.post("api/stock/buy", {id, amount});
+    stockBuy(stock_id, amount) {
+        return instance.post("api/buy", {amount, stock_id});
     },
-    stockSell(id, amount) {
-        return instance.post("api/stock/sell", {id, amount});
+    stockSell(stock_id, amount) {
+        return instance.post("api/sell", {amount, stock_id});
     },
     getCategory() {
         return instance.get("/api/categories");

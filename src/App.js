@@ -8,9 +8,15 @@ import {Route, Routes} from "react-router-dom";
 import {Stock} from "./components/content/trading/Stock";
 import {RootProfile} from "./components/content/profile/RootProfile";
 import PrivateRouteProfile from "./components/content/profile/privateRouteProfile";
+import {useEffect} from "react";
+import authStore from "./store/store";
 
 function App() {
-  return (
+    useEffect(() => {
+        authStore.checkAuth();
+    }, []);
+
+    return (
     <div className='wrapper'>
         <Header />
         <div className={'menuContent'}>
@@ -27,7 +33,7 @@ function App() {
         </div>
         <Footer />
     </div>
-  );
+    );
 }
 
 export default App;
