@@ -8,56 +8,64 @@ export function Portfolio() {
         {
             id: 1,
             name: 'Ozon',
-            category: 'stock',
+            category_id: 2,
+            category_name: 'Shares',
             value: 23.3,
             amount: 10,
         },
         {
             id: 2,
             name: 'Yandex',
-            category: 'stock',
+            category_id: 2,
+            category_name: 'Shares',
             value: 23.3,
             amount: 10,
         },
         {
             id: 3,
             name: 'Google',
-            category: 'stock',
+            category_id: 2,
+            category_name: 'Shares',
             value: 23.3,
             amount: 10,
         },
         {
             id: 4,
             name: 'Vk',
-            category: 'stock',
+            category_id: 2,
+            category_name: 'Shares',
             value: 23.3,
             amount: 10,
         },
         {
             id: 5,
             name: 'Tinkoff',
-            category: 'stock',
+            category_id: 2,
+            category_name: 'Shares',
             value: 23.3,
             amount: 10,
         },
         {
             id: 6,
             name: 'Rub',
-            category: 'value',
+            category_id: 3,
+            category_name: 'Currencies',
             value: 23.3,
             amount: 10,
         },
         {
             id: 7,
             name: 'Dollar',
-            category: 'value',
+            category_id: 3,
+            category_name: 'Currencies',
             value: 23.3,
             amount: 10,
         },
         {
             id: 8,
             name: 'Kek',
-            category: 'other',
+            category_id: 4,
+            category_name: 'Other',
             value: 23.3,
             amount: 10,
         },
@@ -76,12 +84,12 @@ export function Portfolio() {
             console.error('Error fetching portfolio data:', error);
         }
     };
-    function chooseCategory(category) {
-        if (category === 'all') {
+    function chooseCategory(category_id) {
+        if (category_id === 0) {
             setCurItems(items);
             return;
         }
-        setCurItems(items.filter(el => el.category === category));
+        setCurItems(items.filter(el => el.category_id === category_id));
     }
 
     return (

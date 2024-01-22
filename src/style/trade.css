@@ -77,3 +77,7 @@ main .item img:hover {
 .trade button:hover {
     transform: scale(1.05);
 }
+
+.stock-container p {
+    margin-left: 20px;
+}

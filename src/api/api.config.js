@@ -1,16 +1,23 @@
 import axios from "axios";
 
 export const instance = axios.create({
-    withCredentials: true,
-    baseURL: "https://localhost:3000/",
+    baseURL: "https://8abe-95-161-221-55.ngrok-free.app/",
+
 });
 
 instance.interceptors.request.use(
     (config) => {
-        config.headers.Authorization = `Bearer ${localStorage.getItem("token")}`
-        return config
+        config.headers = {
+            "Access-Control-Allow-Origin": "*",
+            "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+            "Access-Control-Allow-Headers": "Content-Type, Authorization",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/x-www-form-urlencoded",
+            Accept: "application/json",
+        };
+        return config;
     }
-)
+);
 
 instance.interceptors.response.use(
     (config) => {

@@ -1,5 +1,4 @@
 import {Item} from "./Item";
-import {Link} from "react-router-dom";
 
 export function List(props) {
     return (

@@ -5,29 +5,39 @@ import {useParams} from "react-router-dom";
 import {BuySell} from "./BuySell";
 import TradeService from "../../../api/api.trade";
 
-/*const data = [];
-
-for (let i = 0; i < 100; i++) {
-    const date = new Date(Math.random() * 26 + 2000, Math.random() * 12, Math.random() * 29, Math.random() * 24);
-    const price = Math.floor(Math.random() * 1000) + 1;
-    data.push({ time: date, price: price });
-}*/
-
 export function Stock() {
     let sortedData = [{ time:  new Date(Math.random() * 26 + 2000, Math.random() * 12, Math.random() * 29, Math.random() * 24), price: 2 }];
     const [chartData, setChartData] = useState(sortedData);
+    const [description, setDescription] = useState({
+        "Id": 2,
+        "Name": "Ozon",
+        "Description": "Лучшее предложение!",
+        "Currency": "RUB",
+        "category_id": 2
+    });
     const {id} = useParams()
 
     useEffect( () => {
-        fetchData();
+        fetchDataPrice();
+        fetchData()
     },);
+
+    const fetchDataPrice = async () => {
+        try {
+            const response = await TradeService.getStockPrice(id);
+            const data = response.data;
+            sortedData = data.sort((a, b) => a.time - b.time);
+            setChartData(data);
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const fetchData = async () => {
         try {
             const response = await TradeService.getStockData(id);
             const data = response.data;
-            sortedData = data.sort((a, b) => a.time - b.time);
-            setChartData(data);
+            setDescription(data);
         } catch (error) {
             console.error(error);
         }
@@ -49,6 +59,10 @@ export function Stock() {
 
     return (
         <div className={"stock-container"}>
+            <h2>Описание</h2>
+            <p>{description.Name} - торгуется в {description.Currency}</p>
+            <p>{description.Description}</p>
+            <h2>График</h2>
             <div className={"graph"}>
                 <LineChart width={800} height={400} data={chartData}>
                     <CartesianGrid strokeDasharray="3 3" />

@@ -4,20 +4,20 @@ import TradeService from "../../../api/api.trade";
 export function Category(props) {
     const [category, setCategory] = useState([
         {
-            key: 'all',
-            name: 'Все',
+            Id: 0,
+            Name: 'All',
         },
         {
-            key: 'stock',
-            name: 'Акции',
+            Id: 2,
+            Name: 'Shares',
         },
         {
-            key: 'value',
-            name: 'Валюта',
+            Id: 3,
+            Name: 'Currencies',
         },
         {
-            key: 'other',
-            name: 'Другое',
+            Id: 4,
+            Name: 'Other',
         }
     ]);
 
@@ -28,8 +28,8 @@ export function Category(props) {
     const fetchData = async () => {
         try {
             const response = await TradeService.getCategory();
-            const data = response.data;
-            setCategory(data);
+            const data = response.json();
+            setCategory(data.categories);
         } catch (error) {
             console.error(error);
         }
@@ -38,7 +38,7 @@ export function Category(props) {
     return (
         <div className={'category'}>
             {category.map(el => (
-                <div key={el.key} onClick={() => props.chooseCategory(el.key)}>{el.name}</div>
+                <div key={el.Id} onClick={() => props.chooseCategory(el.Id)}>{el.Name}</div>
             ))}
         </div>
     )

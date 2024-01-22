@@ -2,7 +2,7 @@ import { makeAutoObservable } from "mobx";
 import AuthService from "../api/api.auth.js";
 
 class AuthStore {
-    isAuth = false;
+    isAuth = true;
     isAuthInProgress = false;
 
     constructor() {

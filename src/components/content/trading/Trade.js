@@ -7,44 +7,44 @@ import TradeService from "../../../api/api.trade";
 export function Trade() {
     const [items, setItems] = useState([
         {
-            id: 1,
-            name: 'Ozon',
-            category: 'stock',
+            Id: 1,
+            Name: 'Ozon',
+            category_id: 2,
         },
         {
-            id: 2,
-            name: 'Yandex',
-            category: 'stock',
+            Id: 2,
+            Name: 'Yandex',
+            category_id: 2,
         },
         {
-            id: 3,
-            name: 'Google',
-            category: 'stock',
+            Id: 3,
+            Name: 'Google',
+            category_id: 2,
         },
         {
-            id: 4,
-            name: 'Vk',
-            category: 'stock',
+            Id: 4,
+            Name: 'Vk',
+            category_id: 2,
         },
         {
-            id: 5,
-            name: 'Tinkoff',
-            category: 'stock',
+            Id: 5,
+            Name: 'Tinkoff',
+            category_id: 2,
         },
         {
-            id: 6,
-            name: 'Rub',
-            category: 'value',
+            Id: 6,
+            Name: 'Rub',
+            category_id: 3,
         },
         {
-            id: 7,
-            name: 'Dollar',
-            category: 'value',
+            Id: 7,
+            Name: 'Dollar',
+            category_id: 3,
         },
         {
-            id: 8,
-            name: 'Kek',
-            category: 'other',
+            Id: 8,
+            Name: 'Kek',
+            category_id: 4,
         },
     ]);
     let [curItems, setCurItems] = useState(items);
@@ -63,11 +63,11 @@ export function Trade() {
         }
     };
     function chooseCategory(category) {
-        if (category === 'all') {
+        if (category === 0) {
             setCurItems(items);
             return;
         }
-        setCurItems(items.filter(el => el.category === category));
+        setCurItems(items.filter(el => el.category_id === category));
     }
 
     return (

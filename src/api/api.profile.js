@@ -1,5 +1,4 @@
 import { instance } from "./api.config.js";
-import {Portfolio} from "../components/content/profile/Portfolio";
 
 const ProfileService = {
 
@@ -12,8 +11,8 @@ const ProfileService = {
     getPortfolioData() {
         return instance.get("/api/portfolio/");
     },
-    sendMessage(header, message) {
-        return instance.post("/api/message/", {header, message})
+    sendMessage(title, content) {
+        return instance.post("/api/ticket/", {content, title})
     }
 }
 
